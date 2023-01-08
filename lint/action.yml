@@ -2,14 +2,8 @@ name: python-lint
 
 on:
   workflow_call:
-  push:
-    branches: master
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-    branches: master
+    outputs:
+      flake8-res: ${{ jobs.steps.res.outputs.flake8_res }}
 
 permissions:
   contents: read
@@ -35,3 +29,6 @@ jobs:
           python -m pip install flake8 flake8-bandit
       - name: 执行flake8
         run: make lint-ci
+      - id: res
+        name: 返回值
+        run: echo "flake8_res=true" >> $GITHUB_OUTPUT
