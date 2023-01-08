@@ -5,7 +5,7 @@ on:
     outputs:
       flake8_res:
         description: "flake8运行结果"
-        value: ${{ jobs.flake8-lint.steps.res.outputs.flake8_res }}
+        value: ${{ jobs.flake8-lint.outputs.flake8_res }}
 
 permissions:
   contents: read
@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    outputs:
+      flake8_res: ${{ steps.res.outputs.flake8_res }}
     steps:
       - name: 仓库获取
         uses: actions/checkout@v3
