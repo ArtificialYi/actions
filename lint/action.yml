@@ -3,7 +3,9 @@ name: python-lint
 on:
   workflow_call:
     outputs:
-      flake8-res: ${{ jobs.steps.res.outputs.flake8_res }}
+      flake8_res:
+        description: "flake8运行结果"
+        value: ${{ jobs.flake8-lint.steps.res.outputs.flake8_res }}
 
 permissions:
   contents: read
