@@ -9,15 +9,10 @@ permissions:
 runs:
   using: composite
   steps:
-    - name: 测试效果
+    - name: pip更新flake8
       shell: bash
       run: |
-        echo ${{ github.ref }}
-        echo ${{ github.repository }}
-        echo ${{ github.path }}
-    - name: 安装flake8
-      shell: bash
-      run: |
+        pwd
         python -m pip install --upgrade pip
         python -m pip install flake8 flake8-bandit
     - name: 执行flake8
