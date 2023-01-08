@@ -6,12 +6,9 @@ on:
 jobs:
   flake8-lint:
     name: 语法格式验证
-    # runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read
-    needs:
-      - actions/checkout
-      - actions/setup-python
     steps:
       - name: 安装flake8
         run: |
