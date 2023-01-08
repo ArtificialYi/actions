@@ -2,22 +2,13 @@ name: python-lint
 
 on:
   workflow_call:
-    outputs:
-      flake8_res:
-        description: "flake8运行结果"
-        value: ${{ jobs.flake8-lint.outputs.flake8_res }}
-
-permissions:
-  contents: read
 
 jobs:
   flake8-lint:
     name: 语法格式验证
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
     permissions:
       contents: read
-    outputs:
-      flake8_res: ${{ steps.res.outputs.flake8_res }}
     steps:
       - name: 仓库获取
         uses: actions/checkout@v3
@@ -33,6 +24,3 @@ jobs:
           python -m pip install flake8 flake8-bandit
       - name: 执行flake8
         run: make lint-ci
-      - id: res
-        name: 返回值
-        run: echo "flake8_res=true" >> $GITHUB_OUTPUT
