@@ -2,6 +2,12 @@ name: python-lint
 
 on:
   workflow_call:
+    inputs:
+      python-version:
+        default: 3.9
+        required: false
+        type: string
+        description: python版本
 
 permissions:
   contents: read
@@ -9,6 +15,12 @@ permissions:
 runs:
   using: composite
   steps:
+    - name: 仓库获取
+      uses: actions/checkout@v3
+    - name: 安装python ${{ inputs.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.python-version }}
     - name: pip更新flake8
       shell: bash
       run: |
