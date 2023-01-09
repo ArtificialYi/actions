@@ -17,4 +17,6 @@ runs:
         python -m pip install flake8 flake8-bandit
     - name: 执行flake8
       shell: bash
-      run: make lint-ci
+      run: |
+        flake8 --show-source --statistics --count
+        echo 'ci lint done.'
