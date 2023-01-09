@@ -5,7 +5,7 @@ on:
     inputs:
       python-version:
         default: 3.9
-        required: false
+        required: true
         type: string
         description: python版本
 
