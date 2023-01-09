@@ -66,12 +66,10 @@ runs:
       name: 安装阿里云相关插件
       shell: bash
       run: python -m pip install -U aliyun-log-python-sdk protobuf==3.20 oss2
-    - id: cal_core
-      name: 计算单元测试核心
+    - name: 执行单元测试-2^${{ inputs.core_num }}=${{ env.core_num }}
       shell: bash
-      out: ${{ format('echo "2^{0}" | bc', inputs.core_num) }}
-    - name: 执行单元测试-2^${{ inputs.core_num }}=${{ steps.cal_core.out }}
-      shell: bash
+      env:
+        core_num: ${{ format('echo "2^{0}" | bc', inputs.core_num) }}
       run: pytest --cov=src -n=${{ inputs.core_num }} -x -v --cov-report=xml test
     - name: 上传至Codecov
       uses: codecov/codecov-action@v3
