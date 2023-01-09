@@ -3,7 +3,7 @@ name: python-lint
 on:
   workflow_call:
     inputs:
-      python-version:
+      - python-version:
         default: 3.9
         required: true
         type: string
