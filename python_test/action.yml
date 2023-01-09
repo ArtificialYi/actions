@@ -1,37 +1,37 @@
 name: pytest
 
-on:
-  workflow_call:
-    inputs:
-      core_num:
-        default: 1
-        required: true
-        type: number
-      python-version:
-        default: 3.9
-        required: false
-        type: string
-        description: python版本
-      mysql:
-        default: false
-        required: false
-        type: boolean
-      numpy:
-        default: false
-        required: false
-        type: boolean
-      aliyun:
-        default: false
-        required: false
-        type: boolean
-    secrets:
-      codecov-token:
-        required: true
-        description: 上传codecov所需token
-      submodules-token:
-        default:
-        required: false
-        description: 子模型token
+author: GodYi
+
+inputs:
+  core_num:
+    default: 1
+    required: true
+    type: number
+  python-version:
+    default: 3.9
+    required: false
+    type: string
+    description: python版本
+  mysql:
+    default: false
+    required: false
+    type: boolean
+  numpy:
+    default: false
+    required: false
+    type: boolean
+  aliyun:
+    default: false
+    required: false
+    type: boolean
+secrets:
+  codecov-token:
+    required: true
+    description: 上传codecov所需token
+  submodules-token:
+    default:
+    required: false
+    description: 子模型token
 
 runs:
   using: composite
