@@ -68,9 +68,12 @@ runs:
     - name: 计算单测上限
       shell: bash
       run: echo core_up_limit=`${{ format('echo "2^{0}" | bc', inputs.core_num) }}` >> $GITHUB_ENV
-    - name: 执行单元测试-2^${{ inputs.core_num }}=${{ env.core_up_limit }}
+    - env:
+        test_name: 执行单元测试-2^${{ inputs.core_num }}=${{ env.core_up_limit }}
       shell: bash
-      run: pytest --cov=src -n=${{ inputs.core_num }} -x -v --cov-report=xml test
+      run: |
+        echo ${{ env.test_name }}
+        pytest --cov=src -n=${{ inputs.core_num }} -x -v --cov-report=xml test
     - name: 上传至Codecov
       uses: codecov/codecov-action@v3
       with:
