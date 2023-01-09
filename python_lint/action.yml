@@ -17,6 +17,16 @@ runs:
   steps:
     - name: 仓库获取
       uses: actions/checkout@v3
+    - name: 仓库获取1
+      uses: actions/checkout@v3
+    - name: 仓库获取2
+      uses: actions/checkout@v3
+    - name: 仓库获取3
+      uses: actions/checkout@v3
+    - name: 仓库获取4
+      uses: actions/checkout@v3
+    - name: 仓库获取5
+      uses: actions/checkout@v3
     - name: 安装python ${{ inputs.python-version }}
       uses: actions/setup-python@v4
       with:

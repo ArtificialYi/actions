@@ -1,0 +1,78 @@
+name: pytest
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        default: 3.9
+        required: false
+        type: string
+        description: python版本
+      mysql:
+        default: false
+        required: false
+        type: boolean
+      numpy:
+        default: false
+        required: false
+        type: boolean
+      aliyun:
+        default: false
+        required: false
+        type: boolean
+    secrets:
+      codecov-token:
+        required: true
+        description: 上传codecov所需token
+      submodules-token:
+        default:
+        required: false
+        description: 子模型token
+
+runs:
+  using: composite
+  steps:
+    - if: ${{ secrets.submodules-token == '' }}
+      name: 仓库获取-普通仓库
+      uses: actions/checkout@v3
+    - if: ${{ secrets.submodules-token != '' }}
+      name: 仓库获取-子模型仓库
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.submodules-token }}
+        submodules: true
+    - name: 安装python ${{ inputs.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.python-version }}
+    - name: 安装pytest
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install pytest pytest-cov pytest-xdist pytest-timeout pytest-asyncio pytest_ordering
+    - if: ${{ inputs.mysql }}
+      name: 安装mysql插件
+      run: python -m pip install pymysql dbutils
+    - if: ${{ inputs.numpy }}
+      name: 安装numpy&torch插件
+      run: python -m pip install numpy torch
+    - if: ${{ inputs.aliyun }}
+      name: 安装阿里云相关插件
+      run: python -m pip install -U aliyun-log-python-sdk protobuf==3.20 oss2
+    - name: 执行单元测试-2^7=128
+      run: pytest --cov=src -n=$(jobs) -x -v --cov-report=xml test
+    - name: 上传至Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.codecov-token }}
+        file: ./coverage.xml
+        name: 单测覆盖率
+        fail_ci_if_error: true
+        flags: unittests
+        verbose: true
+    - name: 清理pytest垃圾
+      run: |
+        rm -rf coverage.xml .coverage.*
+        find . -name '.pytest_cache' | xargs rm -r
+        find . -name '.coverage' | xargs rm -r
+    - name: 清理python垃圾
+      run: find . -name '__pycache__' | xargs rm -r
