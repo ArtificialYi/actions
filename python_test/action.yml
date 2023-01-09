@@ -3,6 +3,10 @@ name: pytest
 on:
   workflow_call:
     inputs:
+      core_num:
+        default: 1
+        required: true
+        type: number
       python-version:
         default: 3.9
         required: false
@@ -46,20 +50,29 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
     - name: 安装pytest
+      shell: bash
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest pytest-cov pytest-xdist pytest-timeout pytest-asyncio pytest_ordering
     - if: ${{ inputs.mysql }}
       name: 安装mysql插件
+      shell: bash
       run: python -m pip install pymysql dbutils
     - if: ${{ inputs.numpy }}
       name: 安装numpy&torch插件
+      shell: bash
       run: python -m pip install numpy torch
     - if: ${{ inputs.aliyun }}
       name: 安装阿里云相关插件
+      shell: bash
       run: python -m pip install -U aliyun-log-python-sdk protobuf==3.20 oss2
-    - name: 执行单元测试-2^7=128
-      run: pytest --cov=src -n=$(jobs) -x -v --cov-report=xml test
+    - id: cal_core
+      name: 计算单元测试核心
+      shell: bash
+      out: ${{ format('echo "2^{0}" | bc', inputs.core_num) }}
+    - name: 执行单元测试-2^${{ inputs.core_num }}=${{ steps.cal_core.out }}
+      shell: bash
+      run: pytest --cov=src -n=${{ inputs.core_num }} -x -v --cov-report=xml test
     - name: 上传至Codecov
       uses: codecov/codecov-action@v3
       with:
@@ -70,9 +83,11 @@ runs:
         flags: unittests
         verbose: true
     - name: 清理pytest垃圾
+      shell: bash
       run: |
         rm -rf coverage.xml .coverage.*
         find . -name '.pytest_cache' | xargs rm -r
         find . -name '.coverage' | xargs rm -r
     - name: 清理python垃圾
+      shell: bash
       run: find . -name '__pycache__' | xargs rm -r
