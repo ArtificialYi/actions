@@ -24,7 +24,6 @@ inputs:
     default: false
     required: false
     type: boolean
-secrets:
   codecov-token:
     required: true
     description: 上传codecov所需token
@@ -36,14 +35,14 @@ secrets:
 runs:
   using: composite
   steps:
-    - if: ${{ secrets.submodules-token == '' }}
+    - if: ${{ inputs.submodules-token == '' }}
       name: 仓库获取-普通仓库
       uses: actions/checkout@v3
-    - if: ${{ secrets.submodules-token != '' }}
+    - if: ${{ inputs.submodules-token != '' }}
       name: 仓库获取-子模型仓库
       uses: actions/checkout@v3
       with:
-        token: ${{ secrets.submodules-token }}
+        token: ${{ inputs.submodules-token }}
         submodules: true
     - name: 安装python ${{ inputs.python-version }}
       uses: actions/setup-python@v4
@@ -74,7 +73,7 @@ runs:
     - name: 上传至Codecov
       uses: codecov/codecov-action@v3
       with:
-        token: ${{ secrets.codecov-token }}
+        token: ${{ inputs.codecov-token }}
         file: ./coverage.xml
         name: 单测覆盖率
         fail_ci_if_error: true
