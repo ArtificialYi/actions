@@ -3,10 +3,6 @@ name: pytest
 author: GodYi
 
 inputs:
-  core_num:
-    default: 1
-    required: true
-    type: number
   python-version:
     default: 3.9
     required: false
@@ -67,15 +63,9 @@ runs:
       name: 安装阿里云相关插件
       shell: bash
       run: python -m pip install -U aliyun-log-python-sdk protobuf==3.20 oss2
-    - name: 计算单测上限
+    - name: 执行单元测试
       shell: bash
-      run: echo core_up_limit=`${{ format('echo "2^{0}" | bc', inputs.core_num) }}` >> $GITHUB_ENV
-    - env:
-        test_name: 执行单元测试-2^${{ inputs.core_num }}=${{ env.core_up_limit }}
-      shell: bash
-      run: |
-        echo ${{ env.test_name }}
-        pytest --cov=src -n=${{ inputs.core_num }} -x -v --cov-report=xml test
+      run: pytest --cov-report=xml
     - name: 上传至Codecov
       uses: codecov/codecov-action@v3
       with:
