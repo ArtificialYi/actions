@@ -49,7 +49,7 @@ runs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest pytest-cov pytest-xdist pytest-timeout pytest-asyncio pytest_ordering
-        python -m pip install aiofiles
+        python -m pip install aiofiles asyncinit
     - if: ${{ inputs.mysql }}
       name: 安装mysql插件
       shell: bash
