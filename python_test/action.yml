@@ -49,10 +49,11 @@ runs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest pytest-cov pytest-xdist pytest-timeout pytest-asyncio pytest_ordering
+        python -m pip install aiofiles
     - if: ${{ inputs.mysql }}
       name: 安装mysql插件
       shell: bash
-      run: python -m pip install pymysql dbutils
+      run: python -m pip install aiomysql
     - if: ${{ inputs.numpy }}
       name: 安装numpy&torch插件
       shell: bash
