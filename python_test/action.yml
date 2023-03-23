@@ -66,16 +66,7 @@ runs:
       run: python -m pip install -U aliyun-log-python-sdk protobuf==3.20 oss2
     - name: 执行单元测试
       shell: bash
-      run: pytest --cov-report=xml
-    - name: 上传至Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ inputs.codecov-token }}
-        file: ./coverage.xml
-        name: 单测覆盖率
-        fail_ci_if_error: true
-        flags: unittests
-        verbose: true
+      run: pytest
     - name: 清理pytest垃圾
       shell: bash
       run: |
