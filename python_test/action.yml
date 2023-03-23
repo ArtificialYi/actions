@@ -20,9 +20,6 @@ inputs:
     default: false
     required: false
     type: boolean
-  codecov-token:
-    required: true
-    description: 上传codecov所需token
   submodules-token:
     default:
     required: false
