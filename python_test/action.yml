@@ -63,13 +63,4 @@ runs:
       run: python -m pip install -U aliyun-log-python-sdk protobuf==3.20 oss2
     - name: 执行单元测试
       shell: bash
-      run: pytest
-    - name: 清理pytest垃圾
-      shell: bash
-      run: |
-        rm -rf coverage.xml .coverage.*
-        find . -name '.pytest_cache' | xargs rm -r
-        find . -name '.coverage' | xargs rm -r
-    - name: 清理python垃圾
-      shell: bash
-      run: find . -name '__pycache__' | xargs rm -r
+      run: make test
