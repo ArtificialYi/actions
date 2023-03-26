@@ -31,6 +31,7 @@ runs:
     - if: ${{ inputs.submodules-token == '' }}
       name: 仓库获取-普通仓库
       uses: actions/checkout@v3
+      with:
         submodules: true
     - if: ${{ inputs.submodules-token != '' }}
       name: 仓库获取-子模型仓库
