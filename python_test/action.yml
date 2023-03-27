@@ -8,7 +8,7 @@ inputs:
     required: false
     type: string
     description: python版本
-  mysql:
+  sql:
     default: false
     required: false
     type: boolean
@@ -49,10 +49,10 @@ runs:
         python -m pip install --upgrade pip
         python -m pip install pytest pytest-cov pytest-xdist pytest-timeout pytest-asyncio pytest_ordering
         python -m pip install aiofiles asyncinit
-    - if: ${{ inputs.mysql == 'true' }}
-      name: 安装mysql插件
+    - if: ${{ inputs.sql == 'true' }}
+      name: 安装sql插件
       shell: bash
-      run: python -m pip install aiomysql
+      run: python -m pip install aiomysql aiosqlite
     - if: ${{ inputs.numpy == 'true'}}
       name: 安装numpy&torch插件
       shell: bash
