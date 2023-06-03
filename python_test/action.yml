@@ -52,7 +52,7 @@ runs:
     - if: ${{ inputs.sql == 'true' }}
       name: 安装sql插件
       shell: bash
-      run: python -m pip install aiomysql aiosqlite
+      run: python -m pip install aiomysql aiosqlite dbutils
     - if: ${{ inputs.numpy == 'true'}}
       name: 安装numpy&torch插件
       shell: bash
